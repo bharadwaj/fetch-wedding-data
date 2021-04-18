@@ -19,4 +19,7 @@ public interface PhotographerRepository extends JpaRepository<Photographer, Long
     @Query(value = "select p from Photographer p where p.name = :name")
     Photographer getPhotographerByName(@Param("name") String name);
 
+    @Query(value = "select p from Photographer p where p.url = :url")
+    Photographer getPhotographerByUrl(@Param("url") String url);
+
 }

@@ -4,10 +4,6 @@ plugins {
 	id 'java'
 }
 
-bootRun {
-	jvmArgs = ["-DsocksProxyHost=localhost", "-DsocksProxyPort=9050"]
-}
-
 
 group = 'com.jolyai'
 version = '0.0.1-SNAPSHOT'

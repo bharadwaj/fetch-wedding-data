@@ -60,16 +60,18 @@ public class WedMeGoodFetcher {
             System.out.println("Photographer Name: " + photographerName.getText());
             System.out.println("url: " + photographerName.getAttribute("href"));
             toSave.setName(photographerName.getText());
+            toSave.setUrl(photographerName.getAttribute("href"));
+
             // Wedmegood's pagination algorithm is dynamic and keeps shuffling the order of photographers per page.
             // Save only new non saved photographers into the database.
             // Check if the photographer is already existing in database.
-            if(photographerRepository.getPhotographerByName(photographerName.getText()) != null)
+            Photographer foundPhotographer = photographerRepository.getPhotographerByUrl(toSave.getUrl());
+            if( foundPhotographer != null)
                 continue;
             // Sometimes real_weddings links show up to avoid those save only profile urls.
             // ex: https://www.wedmegood.com/real_wedding/detail/soumya-gagan-bangalore
             if(!photographerName.getAttribute("href").contains("profile"))
                 continue;
-            toSave.setUrl(photographerName.getAttribute("href"));
 
             // Is the photographer Verified.
             WebElement vendorInfo = vendorCard.findElement(By.cssSelector(".vendor-info"));
@@ -128,6 +130,10 @@ public class WedMeGoodFetcher {
             // Link of the Album
             System.out.println(eachLink.getAttribute("href"));
             toSave.setUrl(eachLink.getAttribute("href"));
+
+            // If link does not contain profile word don't save.
+            if(!eachLink.getAttribute("href").contains("profile"))
+                continue;
 
             // For Album Name, Location if present and Description if present.
             WebElement eachAlbumDetail = allAlbumItems.get(count).findElement(By.cssSelector(".album-detail"));

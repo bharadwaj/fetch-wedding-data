@@ -162,6 +162,8 @@ public class WedMeGoodController {
         profile.setPreference("network.proxy.type", 1);
         profile.setPreference("network.proxy.socks", "127.0.0.1");
         profile.setPreference("network.proxy.socks_port", 9150);
+        profile.setPreference("permissions.default.image", 2);
+        profile.setPreference("dom.ipc.plugins.enabled.libflashplayer.so", false);
         FirefoxOptions firefoxOptions = new FirefoxOptions();
         firefoxOptions.setProfile(profile);
         driver = new FirefoxDriver(firefoxOptions);

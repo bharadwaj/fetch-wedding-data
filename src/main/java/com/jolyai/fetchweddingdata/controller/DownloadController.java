@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("download")
@@ -34,16 +35,18 @@ public class DownloadController {
         String baseDir = "/home/jaya/Pictures"; // /wedmegood/hyderabad/pixexl8/anusha+sahas/
 
         Photo photo = photoRepository.getPhotoNotDownloaded();
-
+        System.setProperty("socksProxyHost", "localhost");
+        System.setProperty("socksProxyPort", "9050");
 
         while (photo != null ){
             String source = photo.getAlbum().getPhotographer().getSource();
+            String city = photo.getAlbum().getPhotographer().getCity();
             String location = photo.getAlbum().getPhotographer().getLocation();
 
             String photographerName = photo.getAlbum().getPhotographer().getName();
             String albumName = photo.getAlbum().getAlbumName();
 
-            String fullDirPath = baseDir + "/" + source + "/" + location + "/" + photographerName + "/" + albumName + "/";
+            String fullDirPath = baseDir + "/" + source + "/" + city + "/" + location + "/" + photographerName + "/" + albumName + "/";
             String imageName = photo.getUrl().substring(photo.getUrl().lastIndexOf("/") + 1);
             String fullImagePath = fullDirPath + imageName;
 
@@ -68,9 +71,13 @@ public class DownloadController {
 
     @GetMapping("ip")
     public ResponseEntity<?> whatIsMyIP() throws UnknownHostException {
+        System.setProperty("socksProxyHost", "localhost");
+        System.setProperty("socksProxyPort", "9050");
         InetAddress localhost = InetAddress.getLocalHost();
         System.out.println("System IP Address : " +
                 (localhost.getHostAddress()).trim());
+        HashMap<String, String> response = new HashMap<>();
+        response.put("Local IP: ", localhost.getHostAddress().trim());
 
         // Find public IP address
         String systemipaddress = "";
@@ -83,6 +90,7 @@ public class DownloadController {
 
             // reads system IPAddress
             systemipaddress = sc.readLine().trim();
+            response.put("Public IP: ", systemipaddress);
         }
         catch (Exception e)
         {
@@ -91,7 +99,9 @@ public class DownloadController {
         }
         System.out.println("Public IP Address: " + systemipaddress +"\n");
 
-        return new ResponseEntity<>("Ok", HttpStatus.OK);
+
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     public Boolean createPhotographerAlbumDir(String dirPath){

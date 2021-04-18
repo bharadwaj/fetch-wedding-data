@@ -1,9 +1,6 @@
 package com.jolyai.fetchweddingdata.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,6 +8,7 @@ public class Photo {
     @Id
     @GeneratedValue
     private Long id;
+    @Column(columnDefinition="VARCHAR(500)")
     private String url;
     private LocalDateTime created_timestamp = LocalDateTime.now();
 

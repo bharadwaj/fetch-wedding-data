@@ -9,6 +9,7 @@ public class Album {
     private Long id;
 
     private String albumName;
+    @Column(columnDefinition="VARCHAR(500)")
     private String url;
     private String location;
     @Column(name = "description", columnDefinition="VARCHAR(500)")
